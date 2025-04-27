@@ -194,14 +194,14 @@ export default function PublicAsk() {
             <ListGroup>
               {retrievedDocs.map((doc, index) => (
                 <ListGroup.Item key={index}>
-                  <p><strong>Content:</strong> <span dangerouslySetInnerHTML={{ __html: doc.content }} /></p>
+                  <p><strong>Content:</strong> <span dangerouslySetInnerHTML={{ __html: doc.content as string}} /></p>
                   {doc.metadata && Object.keys(doc.metadata).length > 0 && (
                     <p>
                       <strong>Metadata:</strong>
                       <ul>
                         {Object.entries(doc.metadata).map(([key, value]) => (
                           <li key={key}>
-                            {key}: {value}
+                            {key as string}: {String(value)}
                           </li>
                         ))}
                       </ul>

@@ -114,10 +114,10 @@ function DriftAnalysisPage() {
     let apiUrl = '/drift_explorer_with_context';
     const params = new URLSearchParams();
     if (fromTimestamp) {
-      params.append('from_timestamp', new Date(fromTimestamp).getTime() / 1000);
+      params.append('from_timestamp', (new Date(fromTimestamp).getTime() / 1000).toString());
     }
     if (toTimestamp) {
-      params.append('to_timestamp', new Date(toTimestamp).getTime() / 1000);
+      params.append('to_timestamp', (new Date(toTimestamp).getTime() / 1000).toString());
     }
 
     if (params.toString()) {
