@@ -1,9 +1,9 @@
 import { Tab, Tabs } from 'react-bootstrap'
-import QAChat from './QAChat'
+import PublicAsk from './PublicAsk'
 import DocumentUpload from './DocumentUpload'
 import UrlAdder from './UrlAdder'
-import MonitoringPage from './Monitoring'
-
+// import MonitoringPage from './Monitoring'
+import DriftAnalysisPage from './DriftMonitoring'
 export default function Dashboard() {
   return (
     <Tabs
@@ -14,7 +14,7 @@ export default function Dashboard() {
       justify    // <-- evenly space them
     >
       <Tab eventKey="qa" title="Ask Questions">
-        <QAChat />
+        <PublicAsk />
       </Tab>
       <Tab eventKey="upload" title="Upload Documents">
         <DocumentUpload />
@@ -22,8 +22,11 @@ export default function Dashboard() {
       <Tab eventKey="url" title="Add URL">
         <UrlAdder />
       </Tab>
-      <Tab eventKey="metrics" title="Monitoring">
+{/*      <Tab eventKey="metrics" title="Monitoring">
         <MonitoringPage />
+      </Tab>*/}
+      <Tab eventKey="drift" title="Drift">
+        <DriftAnalysisPage />
       </Tab>
     </Tabs>
   )

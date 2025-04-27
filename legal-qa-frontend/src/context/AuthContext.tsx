@@ -27,6 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }))
     const token = response.data.access_token
     localStorage.setItem('token', token)
+    localStorage.setItem('username', username)
     await fetchUser(token)
   }
 
@@ -37,6 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('username')
     setUser(null)
   }
 
