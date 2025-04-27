@@ -6,7 +6,7 @@ steps:
     args: [
       'build', 
       '-t', 'gcr.io/$PROJECT_ID/legal-qa-frontend',
-      '--build-arg', 'VITE_API_URL=https://ai-lawyers-influencers-809263430963.us-central1.run.app',
+      '--build-arg', 'VITE_API_URL=https://ai-lawyers-influencers-809263430963.us-central1.run.app/',
       '.'
     ]
 
@@ -24,7 +24,8 @@ steps:
       '--region', 'us-central1',
       '--port',  '8080',
       '--platform', 'managed',
-      '--allow-unauthenticated'
+      '--allow-unauthenticated',
+      '--set-env-vars', 'VITE_API_URL=https://ai-lawyers-influencers-809263430963.us-central1.run.app'
     ]
 
 images:

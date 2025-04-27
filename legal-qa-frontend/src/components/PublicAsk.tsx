@@ -8,7 +8,7 @@ export default function PublicAsk() {
   const [answer, setAnswer] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const API_URL = import.meta.env.VITE_API_URL
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -16,7 +16,18 @@ export default function PublicAsk() {
     setError('')
     
     try {
-      const response = await axios.post(`${API_URL}/ask`, { question })
+      const token = localStorage.getItem('token')
+      console.log("Token:", token)
+      const response = await axios.post(
+        `${API_URL}/ask`,
+        { question },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`, // Include token if necessary
+            'Content-Type': 'application/json'
+          }
+        }
+      )
       setAnswer(response.data.answer)
     } catch (err) {
       setError('Failed to get answer. Please try again or log in for more features.')

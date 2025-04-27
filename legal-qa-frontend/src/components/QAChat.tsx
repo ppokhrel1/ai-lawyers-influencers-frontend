@@ -10,7 +10,7 @@ export default function QAChat() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const { user } = useAuth()
-  const API_URL = import.meta.env.VITE_API_URL
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -18,11 +18,18 @@ export default function QAChat() {
     setError('')
     
     try {
-      const response = await axios.post(`${API_URL}/ask`, { question }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+      const token = localStorage.getItem('token')
+      console.log(token)
+      const response = await axios.post(
+        `${API_URL}/ask`,
+        { question },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         }
-      })
+      )
       setAnswer(response.data.answer)
     } catch (err) {
       setError('Failed to get answer. Please try again.')

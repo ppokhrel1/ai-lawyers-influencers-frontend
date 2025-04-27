@@ -8,7 +8,7 @@ export default function UrlAdder() {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
-  const API_URL = import.meta.env.VITE_API_URL
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

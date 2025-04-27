@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import axios from 'axios'
 
 interface User {
@@ -25,12 +25,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       password,
       grant_type: 'password'
     }))
-    
-    localStorage.setItem('token', response.data.access_token)
-    const userResponse = await axios.get(`${API_URL}/users/me`, {
-      headers: { Authorization: `Bearer ${response.data.access_token}` }
-    })
-    setUser(userResponse.data)
+    const token = response.data.access_token
+    localStorage.setItem('token', token)
+    await fetchUser(token)
   }
 
   const register = async (username: string, email: string, password: string) => {
@@ -42,6 +39,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem('token')
     setUser(null)
   }
+
+  const fetchUser = async (token: string) => {
+    try {
+      const userResponse = await axios.get(`${API_URL}/users/me`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      setUser(userResponse.data)
+    } catch (err) {
+      console.error('Failed to fetch user', err)
+      logout()
+    }
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      fetchUser(token)
+    }
+  }, [])
 
   return (
     <AuthContext.Provider value={{ user, login, register, logout }}>

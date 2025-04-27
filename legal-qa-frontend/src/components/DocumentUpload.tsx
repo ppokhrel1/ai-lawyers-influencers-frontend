@@ -8,7 +8,7 @@ export default function DocumentUpload() {
   const [uploading, setUploading] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
-  const API_URL = import.meta.env.VITE_API_URL
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault()
