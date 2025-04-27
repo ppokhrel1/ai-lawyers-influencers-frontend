@@ -1,56 +1,41 @@
-import { Navbar, Nav, Container, Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
-import { ArrowRightOnRectangleIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 
-export default function Navigation() {
-  const { user, logout } = useAuth()
+// src/components/Navbar.tsx
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
+export default function Navbar() {
+  const { user, logout } = useAuth();
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
-      <Container>
-        <Navbar.Brand as={Link} to="/">Legal QA</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="/">Home</Nav.Link>
-            {user && <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>}
-          </Nav>
-          <Nav>
-            {user ? (
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div className="container-fluid">
+        <Link className="navbar-brand" to="/">Legal QA</Link>
+        
+        <div className="collapse navbar-collapse">
+          <ul className="navbar-nav me-auto">
+            {user && (
               <>
-                <Navbar.Text className="me-3">
-                  <UserCircleIcon className="icon-small me-1" />
-                  {user.username}
-                </Navbar.Text>
-                <Button variant="outline-light" onClick={logout}>
-                  <ArrowRightOnRectangleIcon className="icon-small me-1" />
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button 
-  			as={Link as any} // Temporary type assertion
-			to="/login" 
-  			variant="outline-light" 
-  			className="me-2"
-		>
-	  		Login
-		</Button>
-
-		<Button 
-  		as={Link as any} // Temporary type assertion
-  		to="/register" 
-  		variant="light"
-		>
-  		Register
-		</Button>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/dashboard">Dashboard</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/monitoring">Monitoring</Link>
+                </li>
               </>
             )}
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  )
+          </ul>
+          
+          <div className="d-flex">
+            {user ? (
+              <button className="btn btn-outline-light" onClick={logout}>Logout</button>
+            ) : (<div>
+                  <Link className="btn btn-outline-light me-2" to="/login">Login</Link>
+                  <Link className="btn btn-outline-light" to="/register">Register</Link>
+                </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
 }

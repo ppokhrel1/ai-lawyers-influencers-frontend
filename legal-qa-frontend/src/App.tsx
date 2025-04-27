@@ -1,67 +1,70 @@
 // src/App.tsx
-import React from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { Container } from 'react-bootstrap'
-import Navbar from './components/Navbar'
-import AuthForm from './components/AuthPage'
-import Dashboard from './components/Dashboard'
-import PublicAsk from './components/PublicAsk'
-import { AuthProvider, useAuth } from './context/AuthContext'
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import Navbar from './components/Navbar';
+import AuthForm from './components/AuthPage';
+import Dashboard from './components/Dashboard';
+import PublicAsk from './components/PublicAsk';
+import MonitoringPage from './components/Monitoring';
+import { AuthProvider, useAuth } from './context/AuthContext';
 
-/**
- * Wraps children in the same centering container you used before.
- */
 function Centered({ children }: { children: React.ReactNode }) {
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-75 py-5 w-100">
       {children}
     </div>
-  )
+  );
 }
 
 function AppRoutes() {
-  const { user } = useAuth()
-  const token = localStorage.getItem('token')
-  const isAuthenticated = Boolean(user || token)
+  const { user } = useAuth();
+  const token = localStorage.getItem('token');
+  const isAuthenticated = Boolean(user || token);
 
   return (
     <Routes>
       <Route path="/" element={<Centered><PublicAsk /></Centered>} />
 
-      {/* Login route */}
       <Route
         path="/login"
         element={
           isAuthenticated
-            ? <Navigate to="/dashboard" replace />  // Redirect to dashboard if already authenticated
-            : <Centered><AuthForm type="login" /></Centered>  // Show login form if not authenticated
+            ? <Navigate to="/dashboard" replace />
+            : <Centered><AuthForm type="login" /></Centered>
         }
       />
 
-      {/* Register route */}
       <Route
         path="/register"
         element={
           isAuthenticated
-            ? <Navigate to="/dashboard" replace />  // Redirect to dashboard if already authenticated
-            : <Centered><AuthForm type="register" /></Centered>  // Show register form if not authenticated
+            ? <Navigate to="/dashboard" replace />
+            : <Centered><AuthForm type="register" /></Centered>
         }
       />
 
-      {/* Dashboard route */}
       <Route
         path="/dashboard"
         element={
           isAuthenticated
             ? <Dashboard />
-            : <Navigate to="/login" replace />  // Redirect to login if not authenticated
+            : <Navigate to="/login" replace />
         }
       />
 
-      {/* Catch-all to redirect unknown routes back home */}
+      <Route
+        path="/monitoring"
+        element={
+          isAuthenticated
+            ? <MonitoringPage />
+            : <Navigate to="/login" replace />
+        }
+      />
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
-  )
+  );
 }
 
 export default function App() {
@@ -87,6 +90,5 @@ export default function App() {
         </div>
       </BrowserRouter>
     </AuthProvider>
-  )
+  );
 }
-
