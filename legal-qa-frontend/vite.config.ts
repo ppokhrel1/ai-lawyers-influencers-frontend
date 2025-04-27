@@ -11,7 +11,10 @@ export default defineConfig({
     port: 8080,
     host: true
   },
-
+  allowedHosts: [
+      'legal-qa-frontend-754457156890.us-central1.run.app',
+      'localhost' // Keep local access
+    ],
   css: {
     preprocessorOptions: {
       scss: {
